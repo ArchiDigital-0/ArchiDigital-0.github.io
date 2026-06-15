@@ -440,6 +440,46 @@
 
   footer span { color: var(--accent); }
 
+  /* ── A PROPOS ── */
+  .apropos-block {
+    display: flex;
+    align-items: center;
+    gap: 40px;
+    flex-wrap: wrap;
+  }
+
+  .apropos-photo {
+    width: 140px;
+    height: 140px;
+    min-width: 140px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--accent);
+    box-shadow: 0 0 30px rgba(0,229,255,0.2);
+  }
+
+  .apropos-text h3 {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 4px;
+  }
+
+  .apropos-text .role {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: var(--accent);
+    letter-spacing: 1px;
+    margin-bottom: 14px;
+  }
+
+  .apropos-text p {
+    color: var(--muted);
+    font-size: 15px;
+    line-height: 1.7;
+    max-width: 480px;
+  }
+
   /* ── RESPONSIVE ── */
   @media (max-width: 600px) {
     .nav-links { display: none; }
@@ -479,6 +519,22 @@
     <a class="btn-secondary" href="#services">Voir les services →</a>
   </div>
 </div>
+
+<div class="divider"></div>
+
+<!-- A PROPOS -->
+<section id="apropos">
+  <div class="section-label">// Qui suis-je</div>
+  <div class="section-title">À propos</div>
+  <div class="apropos-block">
+    <img class="apropos-photo" src="https://i.ibb.co/6KwM9FK/file-000000003b407246a5d74a57265489f4.png" alt="Archi Digital">
+    <div class="apropos-text">
+      <h3>Archimède — Archi Digital.0</h3>
+      <div class="role">ENTREPRENEUR DIGITAL · KINSHASA, DRC</div>
+      <p>Entrepreneur digital basé à Kinshasa. Je crée des outils IA, les automatisations des bots et du contenu pour aider l'Afrique à maîtriser les technologies de demain.</p>
+    </div>
+  </div>
+</section>
 
 <div class="divider"></div>
 

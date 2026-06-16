@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Archi Digital — IA, Crypto & Automatisation</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #080A0F;
+    --bg2: #0E1117;
+    --border: #1C2030;
+    --accent: #00E5FF;
+    --accent2: #7B61FF;
+    --gold: #F0B90B;
+    --text: #E2E8F0;
+    --muted: #64748B;
+    --card: #0E1117;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  /* ── GRID BACKGROUND ── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(0,229,255,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,229,255,0.03) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 24px;
+    background: rgba(8,10,15,0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .nav-logo {
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 600;
+    font-size: 15px;
+    color: var(--accent);
+    letter-spacing: 1px;
+  }
+
+  .nav-logo span { color: var(--text); }
+
+  .nav-links {
+    display: flex;
+    gap: 24px;
+    list-style: none;
+  }
+
+  .nav-links a {
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 500;
+    transition: color 0.2s;
+  }
+
+  .nav-links a:hover { color: var(--accent); }
+
+  /* ── HERO ── */
+  .hero {
+    position: relative;
+    z-index: 1;
+    min-height: 100svh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 100px 24px 80px;
+  }
+
+  .hero-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(0,229,255,0.08);
+    border: 1px solid rgba(0,229,255,0.2);
+    border-radius: 100px;
+    padding: 6px 16px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--accent);
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin-bottom: 32px;
+  }
+
+  .hero-tag::before {
+    content: '';
+    width: 6px; height: 6px;
+    background: var(--accent);
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.4; transform: scale(0.8); }
+  }
+
+  .hero h1 {
+    font-size: clamp(36px, 8vw, 72px);
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: -1.5px;
+    margin-bottom: 24px;
+    max-width: 800px;
+  }
+
+  .hero h1 .line1 { color: var(--text); }
+
+  .hero h1 .line2 {
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .hero-sub {
+    color: var(--muted);
+    font-size: 17px;
+    max-width: 520px;
+    margin-bottom: 40px;
+    line-height: 1.7;
+  }
+
+  .hero-ctas {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--accent);
+    color: #080A0F;
+    font-weight: 700;
+    font-size: 14px;
+    padding: 14px 28px;
+    border-radius: 10px;
+    text-decoration: none;
+    transition: opacity 0.2s, transform 0.2s;
+  }
+
+  .btn-primary:hover { opacity: 0.88; transform: translateY(-1px); }
+
+  .btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: transparent;
+    color: var(--text);
+    font-weight: 600;
+    font-size: 14px;
+    padding: 14px 28px;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    text-decoration: none;
+    transition: border-color 0.2s, color 0.2s;
+  }
+
+  .btn-secondary:hover { border-color: var(--accent); color: var(--accent); }
+
+  /* ── GLOW ── */
+  .hero-glow {
+    position: absolute;
+    top: 30%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 600px;
+    height: 400px;
+    background: radial-gradient(ellipse, rgba(0,229,255,0.08) 0%, transparent 65%);
+    pointer-events: none;
+  }
+
+  /* ── SECTIONS ── */
+  section {
+    position: relative;
+    z-index: 1;
+    padding: 80px 24px;
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+
+  .section-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--accent);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+
+  .section-title {
+    font-size: clamp(24px, 4vw, 36px);
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    margin-bottom: 48px;
+    color: var(--text);
+  }
+
+  .divider {
+    width: 100%;
+    height: 1px;
+    background: var(--border);
+    max-width: 1000px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* ── SERVICES ── */
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 16px;
+  }
+
+  .service-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 28px;
+    transition: border-color 0.2s, transform 0.2s;
+    cursor: default;
+  }
+
+  .service-card:hover {
+    border-color: var(--accent);
+    transform: translateY(-3px);
+  }
+
+  .service-icon {
+    font-size: 28px;
+    margin-bottom: 16px;
+    display: block;
+  }
+
+  .service-card h3 {
+    font-size: 17px;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: var(--text);
+  }
+
+  .service-card p {
+    font-size: 14px;
+    color: var(--muted);
+    line-height: 1.65;
+  }
+
+  .service-tag {
+    display: inline-block;
+    margin-top: 14px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--accent2);
+    background: rgba(123,97,255,0.1);
+    border: 1px solid rgba(123,97,255,0.2);
+    border-radius: 4px;
+    padding: 3px 8px;
+  }
+
+  /* ── PRODUITS ── */
+  .produits-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 16px;
+  }
+
+  .produit-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    transition: border-color 0.2s;
+  }
+
+  .produit-card:hover { border-color: var(--gold); }
+
+  .produit-card .badge {
+    display: inline-block;
+    background: rgba(240,185,11,0.1);
+    border: 1px solid rgba(240,185,11,0.25);
+    color: var(--gold);
+    font-size: 10px;
+    font-family: 'JetBrains Mono', monospace;
+    padding: 3px 10px;
+    border-radius: 4px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    width: fit-content;
+  }
+
+  .produit-card h3 {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text);
+  }
+
+  .produit-card p {
+    font-size: 13.5px;
+    color: var(--muted);
+    flex: 1;
+  }
+
+  .produit-card a {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--gold);
+    font-size: 13px;
+    font-weight: 600;
+    text-decoration: none;
+    margin-top: 4px;
+  }
+
+  .produit-card a:hover { opacity: 0.8; }
+
+  /* ── CRYPTO BONUS ── */
+  .bonus-block {
+    background: linear-gradient(135deg, rgba(240,185,11,0.06), rgba(240,185,11,0.02));
+    border: 1px solid rgba(240,185,11,0.2);
+    border-radius: 20px;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 16px;
+  }
+
+  .bonus-amount {
+    font-size: 64px;
+    font-weight: 700;
+    color: var(--gold);
+    line-height: 1;
+    letter-spacing: -2px;
+  }
+
+  .bonus-amount sup {
+    font-size: 28px;
+    vertical-align: super;
+  }
+
+  .bonus-block p {
+    color: var(--muted);
+    max-width: 420px;
+    font-size: 15px;
+  }
+
+  /* ── CONTACT ── */
+  .contact-block {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 24px;
+  }
+
+  .contact-block p {
+    color: var(--muted);
+    max-width: 480px;
+    font-size: 15px;
+  }
+
+  .socials {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .social-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 11px 20px;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    color: var(--text);
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 500;
+    transition: border-color 0.2s, color 0.2s;
+  }
+
+  .social-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+  .social-btn.whatsapp:hover { border-color: #25D366; color: #25D366; }
+  .social-btn.youtube:hover { border-color: #FF0000; color: #FF0000; }
+  .social-btn.facebook:hover { border-color: #1877F2; color: #1877F2; }
+  .social-btn.chariow:hover { border-color: var(--gold); color: var(--gold); }
+
+  /* ── FOOTER ── */
+  footer {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    padding: 32px 24px;
+    border-top: 1px solid var(--border);
+    color: var(--muted);
+    font-size: 13px;
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  footer span { color: var(--accent); }
+
+  /* ── A PROPOS ── */
+  .apropos-block {
+    display: flex;
+    align-items: center;
+    gap: 40px;
+    flex-wrap: wrap;
+  }
+
+  .apropos-photo {
+    width: 140px;
+    height: 140px;
+    min-width: 140px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--accent);
+    box-shadow: 0 0 30px rgba(0,229,255,0.2);
+  }
+
+  .apropos-text h3 {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 4px;
+  }
+
+  .apropos-text .role {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: var(--accent);
+    letter-spacing: 1px;
+    margin-bottom: 14px;
+  }
+
+  .apropos-text p {
+    color: var(--muted);
+    font-size: 15px;
+    line-height: 1.7;
+    max-width: 480px;
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 600px) {
+    .nav-links { display: none; }
+    .hero h1 { letter-spacing: -0.5px; }
+    .bonus-amount { font-size: 48px; }
+    .bonus-block { padding: 28px 20px; }
+    section { padding: 60px 20px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">ARCHI<span>DIGITAL</span>.0</div>
+  <ul class="nav-links">
+    <li><a href="#services">Services</a></li>
+    <li><a href="#produits">Produits</a></li>
+    <li><a href="#crypto">Crypto</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-glow"></div>
+  <div class="hero-tag">Kinshasa · DRC · Afrique</div>
+  <h1>
+    <div class="line1">L'Afrique mérite</div>
+    <div class="line2">l'IA, la crypto<br>& l'automatisation</div>
+  </h1>
+  <p class="hero-sub">
+    Bots, guides, outils et contenus pour t'aider à maîtriser les technologies qui changent le monde — en français, pour l'Afrique.
+  </p>
+  <div class="hero-ctas">
+    <a class="btn-primary" href="https://wa.me/447449749480" target="_blank">💬 Me contacter sur WhatsApp</a>
+    <a class="btn-secondary" href="#services">Voir les services →</a>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- A PROPOS -->
+<section id="apropos">
+  <div class="section-label">// Qui suis-je</div>
+  <div class="section-title">À propos</div>
+  <div class="apropos-block">
+    <img class="apropos-photo" src="https://i.ibb.co/6KwM9FK/file-000000003b407246a5d74a57265489f4.png" alt="Archi Digital">
+    <div class="apropos-text">
+      <h3>Archimède — Archi Digital.0</h3>
+      <div class="role">ENTREPRENEUR DIGITAL · KINSHASA, DRC</div>
+      <p>Entrepreneur digital basé à Kinshasa. Je crée des outils IA, les automatisations des bots et du contenu pour aider l'Afrique à maîtriser les technologies de demain.</p>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- SERVICES -->
+<section id="services">
+  <div class="section-label">// Ce que je fais</div>
+  <div class="section-title">Services disponibles</div>
+  <div class="services-grid">
+
+    <div class="service-card">
+      <span class="service-icon">🤖</span>
+      <h3>Bots WhatsApp</h3>
+      <p>Création de bots automatisés pour WhatsApp — administration de groupes, réponses automatiques, gestion de communautés.</p>
+      <span class="service-tag">AUTOMATISATION</span>
+    </div>
+
+    <div class="service-card">
+      <span class="service-icon">🧠</span>
+      <h3>Intégration IA</h3>
+      <p>Mise en place d'assistants IA personnalisés (comme KAREN) pour automatiser des tâches et créer des expériences intelligentes.</p>
+      <span class="service-tag">INTELLIGENCE ARTIFICIELLE</span>
+    </div>
+
+    <div class="service-card">
+      <span class="service-icon">📈</span>
+      <h3>Conseil Crypto</h3>
+      <p>Initiation à Binance, compréhension des marchés crypto, stratégies de base pour débuter sans risque inutile.</p>
+      <span class="service-tag">CRYPTOMONNAIE</span>
+    </div>
+
+    <div class="service-card">
+      <span class="service-icon">🎓</span>
+      <h3>Formations & Guides</h3>
+      <p>Guides pratiques étape par étape pour maîtriser les outils digitaux modernes — accessibles à tous, même sans expérience.</p>
+      <span class="service-tag">FORMATION</span>
+    </div>
+
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- PRODUITS -->
+<section id="produits">
+  <div class="section-label">// Mes produits digitaux</div>
+  <div class="section-title">Disponibles sur Chariow</div>
+  <div class="produits-grid">
+
+    <div class="produit-card">
+      <span class="badge">Guide</span>
+      <h3>Bot Admin WhatsApp</h3>
+      <p>Apprends à créer ton propre bot administrateur WhatsApp depuis zéro. Idéal pour gérer des groupes automatiquement.</p>
+      <a href="https://aswpytil.mychariow.shop" target="_blank">Voir sur Chariow →</a>
+    </div>
+
+    <div class="produit-card">
+      <span class="badge">Contenu</span>
+      <h3>Chaîne YouTube</h3>
+      <p>Des vidéos gratuites chaque semaine sur l'IA, la crypto et l'automatisation — en français pour l'Afrique francophone.</p>
+      <a href="https://youtube.com/ArchiDigital.0" target="_blank">S'abonner →</a>
+    </div>
+
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- CRYPTO BONUS -->
+<section id="crypto">
+  <div class="section-label">// Offre Binance</div>
+  <div class="section-title">Tu n'as pas encore de compte Binance ?</div>
+  <div class="bonus-block">
+    <div style="font-size:40px">💰</div>
+    <div class="bonus-amount"><sup>$</sup>100</div>
+    <p>Crée ton compte via mon lien de parrainage et reçois jusqu'à <strong style="color:var(--gold)">100 USD en bonus</strong> de bienvenue. Offre réservée aux nouveaux comptes uniquement.</p>
+    <a class="btn-primary" style="background:var(--gold); margin-top:8px;" href="https://account.binance.com/register?ref=1121196209&registerChannel=user_center" target="_blank">
+      🎁 Créer mon compte Binance
+    </a>
+    <small style="color:var(--muted); font-size:11px;">Bonus soumis aux conditions de Binance</small>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="section-label">// Me rejoindre</div>
+  <div class="section-title">Restons connectés</div>
+  <div class="contact-block">
+    <p>Tu as une question, un projet ou tu veux juste suivre mon travail ? Retrouve-moi sur ces plateformes.</p>
+    <div class="socials">
+      <a class="social-btn whatsapp" href="https://wa.me/447449749480" target="_blank">
+        💬 WhatsApp
+      </a>
+      <a class="social-btn youtube" href="https://youtube.com/ArchiDigital.0" target="_blank">
+        ▶ YouTube
+      </a>
+      <a class="social-btn facebook" href="https://www.facebook.com/share/1JVJeQgWTh/" target="_blank">
+        f Facebook
+      </a>
+      <a class="social-btn chariow" href="https://aswpytil.mychariow.shop" target="_blank">
+        🛍 Chariow
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <span>ARCHI DIGITAL.0</span> · Kinshasa, DRC · IA · Crypto · Automatisation
+</footer>
+
+</body>
+</html>
